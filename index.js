@@ -72,6 +72,7 @@ if(snapshot) {
 
 core.debug(`Properties generated:\n${properties}`);
 
-const propertiesFile = path.resolve(__dirname, '..', 'gradle.properties');
-core.info(`Write properties to '${propertiesFile}'.`);
-fs.writeFile(propertiesFile, properties);
+const propertiesFile = path.resolve('gradle.properties');
+fs.writeFile(propertiesFile, properties, () => {
+    core.info(`Properties wrote to '${propertiesFile}'.`);
+});
