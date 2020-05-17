@@ -10,6 +10,9 @@ inputs:
   snapshot:
     description: 'Repositories to push snapshot artifact.'
     required: false
+  dependency:
+    description: 'Repositories to resolve dependencise.'
+    required: false
 runs:
   using: 'node12'
   main: 'index.js'

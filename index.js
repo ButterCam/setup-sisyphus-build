@@ -38,9 +38,10 @@ if (developer) {
 
 const release = core.getInput("release");
 const snapshot = core.getInput("snapshot");
+const dependency = core.getInput("dependency");
 const repositories = {};
 
-for (const element of release.split(',').concat(snapshot.split(','))) {
+for (const element of release.split(',').concat(snapshot.split(',')).concat(dependency.split(','))) {
     if (element) {
         repositories[element] = {
             url: core.getInput(`${element}-url`, { required: true }),
@@ -68,6 +69,9 @@ if(release) {
 }
 if(snapshot) {
     properties += `sisyphus.snapshot.repositories=${snapshot}\n`
+}
+if(dependency) {
+    properties += `sisyphus.dependency.repositories=${dependency}\n`
 }
 
 core.debug(`Properties generated:\n${properties}`);
