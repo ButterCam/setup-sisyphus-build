@@ -7,17 +7,26 @@ const path = require('path');
 const ref = github.context.ref;
 const pr = github.context.payload.pull_request ? github.context.payload.pull_request.number : null;
 
+core.info(`Build sisyphus in ref '${ref}'.`)
 if (ref.startsWith("refs/heads/")) {
-    core.exportVariable("BRANCH_NAME", ref.substring(11));
+    let branch = ref.substring(11);
+    core.exportVariable("BRANCH_NAME", branch);
+    core.info(`Build sisyphus as branch '${branch}' snapshot.`)
 }
 else if (ref.startsWith("refs/tags/")) {
-    core.exportVariable("TAG_NAME", ref.substring(11));
+    let tag = ref.substring(10);
+    core.exportVariable("TAG_NAME", tag);
+    core.info(`Build sisyphus as tag '${tag}' release.`)
 }
 else if (pr != null) {
-    core.exportVariable("BRANCH_NAME", "PR-" + pr);
+    let prName = "PR-" + pr;
+    core.exportVariable("BRANCH_NAME", prName);
+    core.info(`Build sisyphus as pull request '${prName}' snapshot.`)
 }
 else {
-    core.exportVariable("BRANCH_NAME", github.context.sha.substring(0, 7))
+    let sha = github.context.sha.substring(0, 7);
+    core.exportVariable("BRANCH_NAME", sha)
+    core.info(`Build sisyphus as head '${sha}' snapshot.`)
 }
 
 const developer = core.getInput("developer");
