@@ -1,0 +1,15 @@
+name: 'Prepare Sisyphus'
+description: 'Prepare "gradle.properties" needed by sisyphus build.'
+inputs:
+  developer:
+    description: 'Sisyphus developer name.'
+    required: false
+  release:
+    description: 'Repositories to push release artifact.'
+    required: false
+  snapshot:
+    description: 'Repositories to push snapshot artifact.'
+    required: false
+runs:
+  using: 'node12'
+  main: 'index.js'
