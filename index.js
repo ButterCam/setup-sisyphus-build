@@ -3,6 +3,7 @@ const github = require('@actions/github');
 const io = require('@actions/io');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 
 const ref = github.context.ref;
 const pr = github.context.payload.pull_request ? github.context.payload.pull_request.number : null;
@@ -84,7 +85,10 @@ if (dependency) {
 
 core.debug(`Properties generated:\n${properties}`);
 
-const propertiesFile = path.resolve('gradle.properties');
-fs.writeFile(propertiesFile, properties, () => {
-    core.info(`Properties wrote to '${propertiesFile}'.`);
+const gradleUserHome = process.env["GRADLE_USER_HOME"] || path.resolve(os.homedir(), ".gradle");
+io.mkdirP(gradleUserHome).then(() => {
+    const propertiesFile = path.resolve(gradleUserHome, 'gradle.properties');
+    fs.writeFile(propertiesFile, properties, () => {
+        core.info(`Properties wrote to '${propertiesFile}'.`);
+    });
 });
