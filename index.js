@@ -31,7 +31,7 @@ const release = core.getInput("release");
 const snapshot = core.getInput("snapshot");
 const repositories = {};
 
-(release.split(',') + snapshot.split(',')).forEach(element => {
+for (const element of release.split(',') + snapshot.split(',')) {
     if (element) {
         repositories[element] = {
             url: core.getInput(`${element}-url`, { required: true }),
@@ -39,7 +39,7 @@ const repositories = {};
             password: core.getInput(`${element}-password`)
         }
     }
-});
+}
 
 for (const key in repositories) {
     if (object.hasOwnProperty(key)) {
