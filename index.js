@@ -53,8 +53,8 @@ for (const element of release.split(',').concat(snapshot.split(','))) {
 }
 
 for (const key in repositories) {
-    if (object.hasOwnProperty(key)) {
-        const element = object[key];
+    if (repositories.hasOwnProperty(key)) {
+        const element = repositories[key];
         properties += `sisyphus.repositories.${key}.url=${element.url}\n`
         if(element.username && element.password) {
             properties += `sisyphus.repositories.${key}.username=${element.username}\n`
