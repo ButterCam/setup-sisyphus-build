@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path'); 
 
 const ref = github.context.ref;
-const pr = github?.context?.payload?.pull_request?.number;
+const pr = github.context.payload.pull_request ? github.context.payload.pull_request.number : null;
 
 if (ref.startsWith("refs/heads/")) {
     core.exportVariable("BRANCH_NAME", ref.substring(11));
