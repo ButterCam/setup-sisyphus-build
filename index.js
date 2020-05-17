@@ -31,13 +31,15 @@ const release = core.getInput("release");
 const snapshot = core.getInput("snapshot");
 const repositories = {};
 
-for (const element of release.split(',') + snapshot.split(',')) {
+for (const element of release.split(',').concat(snapshot.split(','))) {
     if (element) {
         repositories[element] = {
             url: core.getInput(`${element}-url`, { required: true }),
             username: core.getInput(`${element}-username`),
             password: core.getInput(`${element}-password`)
         }
+
+        core.info(`Repository '${element}' registered.`)
     }
 }
 
@@ -59,4 +61,8 @@ if(snapshot) {
     properties += `sisyphus.snapshot.repositories=${snapshot}\n`
 }
 
-fs.writeFile(path.resolve(__dirname, '..', 'gradle.properties'), properties);
+core.debug(`Properties generated:\n${properties}`);
+
+const propertiesFile = path.resolve(__dirname, '..', 'gradle.properties');
+core.info(`Write properties to '${propertiesFile}'.`);
+fs.writeFile(propertiesFile, properties);
