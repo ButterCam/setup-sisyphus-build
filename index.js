@@ -2,7 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const io = require('@actions/io');
 const fs = require('fs');
-const path = require('path'); 
+const path = require('path');
 
 const ref = github.context.ref;
 const pr = github.context.payload.pull_request ? github.context.payload.pull_request.number : null;
@@ -43,13 +43,21 @@ const repositories = {};
 
 for (const element of release.split(',').concat(snapshot.split(',')).concat(dependency.split(','))) {
     if (element) {
-        repositories[element] = {
-            url: core.getInput(`${element}-url`, { required: true }),
-            username: core.getInput(`${element}-username`),
-            password: core.getInput(`${element}-password`)
+        switch (element) {
+            case 'local':
+            case 'central':
+            case 'jcenter':
+                core.info(`Register for Built-in repository '${element}' skipped.`)
+                break;
+            default:
+                repositories[element] = {
+                    url: core.getInput(`${element}-url`, { required: true }),
+                    username: core.getInput(`${element}-username`),
+                    password: core.getInput(`${element}-password`)
+                }
+                core.info(`Repository '${element}' registered.`)
+                break;
         }
-
-        core.info(`Repository '${element}' registered.`)
     }
 }
 
@@ -57,20 +65,20 @@ for (const key in repositories) {
     if (repositories.hasOwnProperty(key)) {
         const element = repositories[key];
         properties += `sisyphus.repositories.${key}.url=${element.url}\n`
-        if(element.username && element.password) {
+        if (element.username && element.password) {
             properties += `sisyphus.repositories.${key}.username=${element.username}\n`
             properties += `sisyphus.repositories.${key}.password=${element.password}\n`
         }
     }
 }
 
-if(release) {
+if (release) {
     properties += `sisyphus.release.repositories=${release}\n`
 }
-if(snapshot) {
+if (snapshot) {
     properties += `sisyphus.snapshot.repositories=${snapshot}\n`
 }
-if(dependency) {
+if (dependency) {
     properties += `sisyphus.dependency.repositories=${dependency}\n`
 }
 
