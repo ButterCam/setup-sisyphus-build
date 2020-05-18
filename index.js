@@ -83,6 +83,15 @@ if (dependency) {
     properties += `sisyphus.dependency.repositories=${dependency}\n`
 }
 
+const gradlePortalKey = core.getInput("gradle-portal-key");
+if (gradlePortalKey) {
+    properties += `gradle.publish.key=${gradlePortalKey}\n`
+}
+const gradlePortalSecret = core.getInput("gradle-portal-secret");
+if (gradlePortalSecret) {
+    properties += `gradle.publish.secret=${gradlePortalSecret}\n`
+}
+
 core.debug(`Properties generated:\n${properties}`);
 
 const gradleUserHome = process.env["GRADLE_USER_HOME"] || path.resolve(os.homedir(), ".gradle");

@@ -13,6 +13,12 @@ inputs:
   dependency:
     description: 'Repositories to resolve dependencise.'
     required: false
+  gradle-portal-key:
+    description: 'Key used for publishing plugin to gradle portal.'
+    required: false
+  gradle-portal-secret:
+    description: 'Secret used for publishing plugin to gradle portal.'
+    required: false
 runs:
   using: 'node12'
   main: 'index.js'
