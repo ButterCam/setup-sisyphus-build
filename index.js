@@ -94,6 +94,7 @@ if (gradlePortalSecret) {
 
 const gpgKeyName = core.getInput("gpg-key-name");
 if (gpgKeyName) {
+    properties += `signing.gnupg.executable=gpg\n`
     properties += `signing.gnupg.keyName=${gpgKeyName}\n`
 }
 
