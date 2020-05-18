@@ -19,6 +19,9 @@ inputs:
   gradle-portal-secret:
     description: 'Secret used for publishing plugin to gradle portal.'
     required: false
+  gpg-key-name:
+    description: 'Gnupg key name for signing.'
+    required: false
 runs:
   using: 'node12'
   main: 'index.js'

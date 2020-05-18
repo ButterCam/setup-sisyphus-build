@@ -92,6 +92,11 @@ if (gradlePortalSecret) {
     properties += `gradle.publish.secret=${gradlePortalSecret}\n`
 }
 
+const gpgKeyName = core.getInput("gpg-key-name");
+if (gpgKeyName) {
+    properties += `signing.gnupg.keyName=${gpgKeyName}\n`
+}
+
 core.debug(`Properties generated:\n${properties}`);
 
 const gradleUserHome = process.env["GRADLE_USER_HOME"] || path.resolve(os.homedir(), ".gradle");
