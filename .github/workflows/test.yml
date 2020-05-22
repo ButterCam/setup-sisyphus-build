@@ -21,9 +21,9 @@ jobs:
     - uses: ./
       with:
         developer: higan
-        snapshot: nexus, snapshot
-        dependency: local, central, nexus, public
-        config: nexus
+        snapshot-repositories: nexus, snapshot
+        dependency-repositories: local, central, nexus, public
+        config-repositories: nexus
         config-artifacts: com.my:my-config:1.0.0
         public-url: https://maven-repo/public
         nexus-url: https://maven-repo/nexus

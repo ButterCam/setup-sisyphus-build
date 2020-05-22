@@ -35,11 +35,11 @@ async function run(): Promise<void> {
       properties += `sisyphus.developer=${developer}\n`
     }
 
-    const release = core.getInput('release')
-    const config = core.getInput('config')
-    const docker = core.getInput('docker')
-    const snapshot = core.getInput('snapshot')
-    const dependency = core.getInput('dependency')
+    const release = core.getInput('release-repositories')
+    const config = core.getInput('config-repositories')
+    const docker = core.getInput('docker-repositories')
+    const snapshot = core.getInput('snapshot-repositories')
+    const dependency = core.getInput('dependency-repositories')
     const repositories: {
       [key: string]: {
         url: string
@@ -67,7 +67,7 @@ async function run(): Promise<void> {
     for (const element of registeredReposiotriesName) {
       if (element) {
         const url = core.getInput(`${element}-url`)
-        if (url) {
+        if (url && !repositories[element]) {
           repositories[element] = {
             url,
             username: core.getInput(`${element}-username`),

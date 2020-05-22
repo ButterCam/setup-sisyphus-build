@@ -3816,48 +3816,55 @@ function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let properties = "";
+            let properties = '';
             const ref = github.context.ref;
             const pr = (_a = github.context.payload.pull_request) === null || _a === void 0 ? void 0 : _a.number;
             core.info(`Build sisyphus in ref '${ref}'.`);
-            if (ref.startsWith("refs/heads/")) {
-                let branch = ref.substring(11);
-                core.exportVariable("BRANCH_NAME", branch);
+            if (ref.startsWith('refs/heads/')) {
+                const branch = ref.substring(11);
+                core.exportVariable('BRANCH_NAME', branch);
                 core.info(`Build sisyphus as branch '${branch}' snapshot.`);
             }
-            else if (ref.startsWith("refs/tags/")) {
-                let tag = ref.substring(10);
-                core.exportVariable("TAG_NAME", tag);
+            else if (ref.startsWith('refs/tags/')) {
+                const tag = ref.substring(10);
+                core.exportVariable('TAG_NAME', tag);
                 core.info(`Build sisyphus as tag '${tag}' release.`);
             }
             else if (pr != null) {
-                let prName = "PR-" + pr;
-                core.exportVariable("BRANCH_NAME", prName);
+                const prName = `PR-${pr}`;
+                core.exportVariable('BRANCH_NAME', prName);
                 core.info(`Build sisyphus as pull request '${prName}' snapshot.`);
             }
             else {
-                let sha = github.context.sha.substring(0, 7);
-                core.exportVariable("BRANCH_NAME", sha);
+                const sha = github.context.sha.substring(0, 7);
+                core.exportVariable('BRANCH_NAME', sha);
                 core.info(`Build sisyphus as head '${sha}' snapshot.`);
             }
-            const developer = core.getInput("developer");
+            const developer = core.getInput('developer');
             if (developer) {
                 properties += `sisyphus.developer=${developer}\n`;
             }
-            const release = core.getInput("release");
-            const config = core.getInput("config");
-            const docker = core.getInput("docker");
-            const snapshot = core.getInput("snapshot");
-            const dependency = core.getInput("dependency");
+            const release = core.getInput('release-repositories');
+            const config = core.getInput('config-repositories');
+            const docker = core.getInput('docker-repositories');
+            const snapshot = core.getInput('snapshot-repositories');
+            const dependency = core.getInput('dependency-repositories');
             const repositories = {};
-            const embeddedRepositories = ["local", "central", "jcenter", "portal", "release", "snapshot"];
+            const embeddedRepositories = [
+                'local',
+                'central',
+                'jcenter',
+                'portal',
+                'release',
+                'snapshot'
+            ];
             const registeredReposiotriesName = embeddedRepositories.concat(release.split(','), snapshot.split(','), dependency.split(','), config.split(','), docker.split(','));
             for (const element of registeredReposiotriesName) {
                 if (element) {
-                    let url = core.getInput(`${element}-url`);
-                    if (url) {
+                    const url = core.getInput(`${element}-url`);
+                    if (url && !repositories[element]) {
                         repositories[element] = {
-                            url: url,
+                            url,
                             username: core.getInput(`${element}-username`),
                             password: core.getInput(`${element}-password`)
                         };
@@ -3890,21 +3897,21 @@ function run() {
             if (config) {
                 properties += `sisyphus.config.repositories=${config}\n`;
             }
-            const gradlePortalKey = core.getInput("gradle-portal-key");
+            const gradlePortalKey = core.getInput('gradle-portal-key');
             if (gradlePortalKey) {
                 properties += `gradle.publish.key=${gradlePortalKey}\n`;
             }
-            const gradlePortalSecret = core.getInput("gradle-portal-secret");
+            const gradlePortalSecret = core.getInput('gradle-portal-secret');
             if (gradlePortalSecret) {
                 properties += `gradle.publish.secret=${gradlePortalSecret}\n`;
             }
-            const gpgKeyName = core.getInput("gpg-key-name");
+            const gpgKeyName = core.getInput('gpg-key-name');
             if (gpgKeyName) {
                 properties += `signing.gnupg.executable=gpg\n`;
                 properties += `signing.gnupg.keyName=${gpgKeyName}\n`;
             }
             core.debug(`Properties generated:\n${properties}`);
-            const gradleUserHome = process.env["GRADLE_USER_HOME"] || path.resolve(os.homedir(), ".gradle");
+            const gradleUserHome = process.env['GRADLE_USER_HOME'] || path.resolve(os.homedir(), '.gradle');
             yield io.mkdirP(gradleUserHome);
             const propertiesFile = path.resolve(gradleUserHome, 'gradle.properties');
             fs.writeFile(propertiesFile, properties, () => {
