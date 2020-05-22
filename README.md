@@ -5,7 +5,7 @@ Prepare "gradle.properties" needed by [sisyphus](https://github.com/ButterCa
 ## Inputs to 'gradle.properties' mapping
 
 input | gradle.properties | descriptor
-- | - | -
+-|-|-
 developer | sisyphus.developer | Set developer name for developing environment.
 snapshot-repositories | sisyphus.snapshot.repositories | Repositories for snapshot publishing, default value is `snapshot`.
 release-repositories | sisyphus.release.repositories | Repositories for release publishing, default value is `release`.
@@ -20,7 +20,7 @@ gpg-keyname | signing.gnupg.keyName | Gunpg key name of signing.
 ### Dynamic input mapping
 
 input | gradle.properties | descriptor
-- | - | -
+-|-|-
 `name`-url | sisyphus.repositories.`name`.url | Url of repository.
 `name`-username | sisyphus.repositories.`name`.username | Optional, user name of repository.
 `name`-password | sisyphus.repositories.`name`.password | Optional, password of repository.
