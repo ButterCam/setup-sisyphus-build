@@ -15,7 +15,7 @@ dependency-repositories | sisyphus.dependency.repositories | Repositories f
 config-artifacts | sisyphus.config.artifacts | Configuration artifacts.
 gradle-portal-key | gradle.publish.key | Publish key for gradle portal.
 gradle-portal-secret | gradle.publish.secret | Publish secret for gradle portal.
-gpg-keyname | signing.gnupg.keyName | Gunpg key name of signing.
+gpg-key-name | signing.gnupg.keyName | Gunpg key name of signing.
 
 ### Dynamic input mapping
 

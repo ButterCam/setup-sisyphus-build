@@ -65,15 +65,16 @@ async function run(): Promise<void> {
     )
 
     for (const element of registeredReposiotriesName) {
-      if (element) {
-        const url = core.getInput(`${element}-url`)
-        if (url && !repositories[element]) {
-          repositories[element] = {
+      let name = element.trim()
+      if (name) {
+        const url = core.getInput(`${name}-url`)
+        if (url && !repositories[name]) {
+          repositories[name] = {
             url,
-            username: core.getInput(`${element}-username`),
-            password: core.getInput(`${element}-password`)
+            username: core.getInput(`${name}-username`),
+            password: core.getInput(`${name}-password`)
           }
-          core.info(`Repository '${element}' registered.`)
+          core.info(`Repository '${name}' registered.`)
         }
       }
     }
