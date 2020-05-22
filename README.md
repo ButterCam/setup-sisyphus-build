@@ -17,7 +17,7 @@ gradle-portal-key | gradle.publish.key | Publish key for gradle portal.
 gradle-portal-secret | gradle.publish.secret | Publish secret for gradle portal.
 gpg-keyname | signing.gnupg.keyName | Gunpg key name of signing.
 
-### Dynamic input mapping
+### Dynamic input mapping
 
 input | gradle.properties | descriptor
 -|-|-
