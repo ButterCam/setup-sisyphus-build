@@ -4,24 +4,38 @@ inputs:
   developer:
     description: 'Sisyphus developer name.'
     required: false
-  release:
-    description: 'Repositories to push release artifact.'
-    required: false
-  snapshot:
+
+  snapshot-repositories:
     description: 'Repositories to push snapshot artifact.'
     required: false
-  dependency:
+  release-repositories:
+    description: 'Repositories to push release artifact.'
+    required: false
+
+  docker-repositories:
+    description: 'Repositories to push docker images.'
+    required: false
+  config-repositories:
+    description: 'Repositories to resolve config artifact dependencise.'
+    required: false
+  dependency-repositories:
     description: 'Repositories to resolve dependencise.'
     required: false
+
+  config-artifacts:
+    description: 'Config artifacts.'
+    required: false
+
   gradle-portal-key:
     description: 'Key used for publishing plugin to gradle portal.'
     required: false
   gradle-portal-secret:
     description: 'Secret used for publishing plugin to gradle portal.'
     required: false
-  gpg-key-name:
+
+  gpg-keyname:
     description: 'Gnupg key name for signing.'
     required: false
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'

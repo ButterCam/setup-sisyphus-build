@@ -1,17 +1,42 @@
 {
   "name": "prepare-sisphus",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Prepare 'gradle.properties' needed by sisyphus build.",
+  "main": "lib/main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "format": "prettier --write **/*.ts",
+    "format-check": "prettier --check **/*.ts",
+    "lint": "eslint src/**/*.ts",
+    "pack": "ncc build",
+    "all": "npm run build && npm run format && npm run lint && npm run pack && npm test"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/actions/typescript-action.git"
+  },
+  "keywords": [
+    "actions",
+    "node",
+    "setup"
+  ],
+  "author": "YourNameOrOrganization",
+  "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.4",
     "@actions/github": "^2.2.0",
     "@actions/io": "^1.0.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.7.12",
+    "@typescript-eslint/parser": "^2.8.0",
+    "@zeit/ncc": "^0.20.5",
+    "eslint": "^5.16.0",
+    "eslint-plugin-github": "^2.0.0",
+    "js-yaml": "^3.13.1",
+    "prettier": "^1.19.1",
+    "typescript": "^3.6.4"
   }
 }
