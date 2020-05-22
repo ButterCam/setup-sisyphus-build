@@ -65,7 +65,7 @@ async function run(): Promise<void> {
     )
 
     for (const element of registeredReposiotriesName) {
-      let name = element.trim()
+      const name = element.trim()
       if (name) {
         const url = core.getInput(`${name}-url`)
         if (url && !repositories[name]) {
