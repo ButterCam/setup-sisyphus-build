@@ -17,11 +17,11 @@
     "url": "git+https://github.com/actions/typescript-action.git"
   },
   "keywords": [
-    "actions",
-    "node",
-    "setup"
+    "sisyphus",
+    "setup",
+    "github action"
   ],
-  "author": "YourNameOrOrganization",
+  "author": "ButterCam",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.2.4",
