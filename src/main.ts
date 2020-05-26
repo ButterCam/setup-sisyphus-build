@@ -83,10 +83,8 @@ async function run(): Promise<void> {
       if (repositories.hasOwnProperty(key)) {
         const element = repositories[key]
         properties += `sisyphus.repositories.${key}.url=${element.url}\n`
-        if (element.username && element.password) {
-          properties += `sisyphus.repositories.${key}.username=${element.username}\n`
-          properties += `sisyphus.repositories.${key}.password=${element.password}\n`
-        }
+        properties += `sisyphus.repositories.${key}.username=${element.username}\n`
+        properties += `sisyphus.repositories.${key}.password=${element.password}\n`
       }
     }
 
