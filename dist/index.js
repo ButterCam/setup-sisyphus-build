@@ -3860,7 +3860,7 @@ function run() {
             ];
             const registeredReposiotriesName = embeddedRepositories.concat(release.split(','), snapshot.split(','), dependency.split(','), config.split(','), docker.split(','));
             for (const element of registeredReposiotriesName) {
-                let name = element.trim();
+                const name = element.trim();
                 if (name) {
                     const url = core.getInput(`${name}-url`);
                     if (url && !repositories[name]) {
@@ -3877,10 +3877,8 @@ function run() {
                 if (repositories.hasOwnProperty(key)) {
                     const element = repositories[key];
                     properties += `sisyphus.repositories.${key}.url=${element.url}\n`;
-                    if (element.username && element.password) {
-                        properties += `sisyphus.repositories.${key}.username=${element.username}\n`;
-                        properties += `sisyphus.repositories.${key}.password=${element.password}\n`;
-                    }
+                    properties += `sisyphus.repositories.${key}.username=${element.username}\n`;
+                    properties += `sisyphus.repositories.${key}.password=${element.password}\n`;
                 }
             }
             if (release) {
