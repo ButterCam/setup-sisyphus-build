@@ -1,4 +1,4 @@
-name: 'Prepare Sisyphus'
+name: 'Setup Sisyphus'
 description: 'Prepare "gradle.properties" needed by sisyphus build.'
 inputs:
   developer:
@@ -16,10 +16,10 @@ inputs:
     description: 'Repositories to push docker images.'
     required: false
   config-repositories:
-    description: 'Repositories to resolve config artifact dependencise.'
+    description: 'Repositories to resolve config artifact dependencies.'
     required: false
   dependency-repositories:
-    description: 'Repositories to resolve dependencise.'
+    description: 'Repositories to resolve dependencies.'
     required: false
 
   config-artifacts:
