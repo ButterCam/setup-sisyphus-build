@@ -119,6 +119,17 @@ async function run(): Promise<void> {
       properties += `signing.gnupg.keyName=${gpgKeyName}\n`
     }
 
+    const prBody = github.context.payload.pull_request?.body
+    if(prBody) {
+      const matches = prBody.match(/```gradle\.properties(.+?)```/i)
+      if(matches) {
+        properties += matches[1].trim()
+        core.info(`Merge properties from PR description.`)
+        core.info(matches[1].trim())
+        properties += "\n"
+      }
+    }
+
     core.debug(`Properties generated:\n${properties}`)
 
     const gradleUserHome =

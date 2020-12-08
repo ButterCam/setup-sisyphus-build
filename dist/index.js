@@ -883,7 +883,7 @@ const fs = __importStar(__webpack_require__(747));
 const path = __importStar(__webpack_require__(622));
 const os = __importStar(__webpack_require__(87));
 function run() {
-    var _a;
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             let properties = '';
@@ -978,6 +978,16 @@ function run() {
             if (gpgKeyName) {
                 properties += `signing.gnupg.executable=gpg\n`;
                 properties += `signing.gnupg.keyName=${gpgKeyName}\n`;
+            }
+            const prBody = (_b = github.context.payload.pull_request) === null || _b === void 0 ? void 0 : _b.body;
+            if (prBody) {
+                const matches = prBody.match(/```gradle\.properties(.+?)```/i);
+                if (matches) {
+                    properties += matches[1].trim();
+                    core.info(`Merge properties from PR description.`);
+                    core.info(matches[1].trim());
+                    properties += "\n";
+                }
             }
             core.debug(`Properties generated:\n${properties}`);
             const gradleUserHome = process.env['GRADLE_USER_HOME'] || path.resolve(os.homedir(), '.gradle');
