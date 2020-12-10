@@ -120,13 +120,14 @@ async function run(): Promise<void> {
     }
 
     const prBody = github.context.payload.pull_request?.body
-    if(prBody) {
-      const matches = prBody.match(/```gradle\.properties(.+?)```/i)
-      if(matches) {
+    if (prBody) {
+      const matches = prBody.match(/```gradle\.properties([\s\S]+?)```/i)
+      if (matches) {
         properties += matches[1].trim()
-        core.info(`Merge properties from PR description.`)
+        core.startGroup('Merge properties from PR description.')
         core.info(matches[1].trim())
-        properties += "\n"
+        core.endGroup()
+        properties += '\n'
       }
     }
 
@@ -137,9 +138,19 @@ async function run(): Promise<void> {
 
     await io.mkdirP(gradleUserHome)
     const propertiesFile = path.resolve(gradleUserHome, 'gradle.properties')
-    fs.writeFile(propertiesFile, properties, () => {
-      core.info(`Properties wrote to '${propertiesFile}'.`)
-    })
+    const bakPropertiesFile = path.resolve(
+      gradleUserHome,
+      'gradle.properties.bak'
+    )
+
+    if (fs.existsSync(propertiesFile)) {
+      await fs.promises.copyFile(propertiesFile, bakPropertiesFile)
+      await fs.promises.appendFile(propertiesFile, properties)
+    } else {
+      await fs.promises.writeFile(propertiesFile, properties)
+    }
+
+    core.info(`Properties wrote to '${propertiesFile}'.`)
   } catch (error) {
     core.setFailed(error.message)
   }
