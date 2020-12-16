@@ -12,7 +12,7 @@ async function run(): Promise<void> {
     let pr
     let octokit = null
     if (
-      core.getInput('github-token') != null &&
+      core.getInput('github-token') &&
       github.context.payload.pull_request != null
     ) {
       octokit = github.getOctokit(core.getInput('github-token'))
