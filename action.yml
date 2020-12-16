@@ -1,6 +1,10 @@
 name: 'Setup Sisyphus'
 description: 'Prepare "gradle.properties" needed by sisyphus build.'
 inputs:
+  github-token:
+    description: 'Token to access GitHub APIs.'
+    required: false
+
   developer:
     description: 'Sisyphus developer name.'
     required: false

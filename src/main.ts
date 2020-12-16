@@ -9,7 +9,23 @@ async function run(): Promise<void> {
   try {
     let properties = ''
     const ref = github.context.ref
-    const pr = github.context.payload.pull_request?.number
+    let pr
+    let octokit = null
+    if (
+      core.getInput('github-token') != null &&
+      github.context.payload.pull_request != null
+    ) {
+      octokit = github.getOctokit(core.getInput('github-token'))
+      const {data} = await octokit.pulls.get({
+        owner: github.context.payload.repository?.owner?.login ?? '',
+        repo: github.context.payload.repository?.name ?? '',
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        pull_number: github.context.payload.pull_request.number
+      })
+      pr = data
+    } else {
+      pr = github.context.payload.pull_request
+    }
 
     core.info(`Build sisyphus in ref '${ref}'.`)
     if (ref.startsWith('refs/heads/')) {
@@ -20,8 +36,8 @@ async function run(): Promise<void> {
       const tag = ref.substring(10)
       core.exportVariable('TAG_NAME', tag)
       core.info(`Build sisyphus as tag '${tag}' release.`)
-    } else if (pr != null) {
-      const prName = `PR-${pr}`
+    } else if (pr) {
+      const prName = `PR-${pr.number}`
       core.exportVariable('BRANCH_NAME', prName)
       core.info(`Build sisyphus as pull request '${prName}' snapshot.`)
     } else {
@@ -119,7 +135,7 @@ async function run(): Promise<void> {
       properties += `signing.gnupg.keyName=${gpgKeyName}\n`
     }
 
-    const prBody = github.context.payload.pull_request?.body
+    const prBody = pr?.body
     if (prBody) {
       const matches = prBody.match(/```gradle\.properties([\s\S]+?)```/i)
       if (matches) {
