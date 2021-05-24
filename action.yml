@@ -36,6 +36,9 @@ inputs:
   gradle-portal-secret:
     description: 'Secret used for publishing plugin to gradle portal.'
     required: false
+  gradle-jvm-args:
+    description: 'Arguments for gradle jvm.'
+    required: false
 
   gpg-key-name:
     description: 'Gnupg key name for signing.'
@@ -44,3 +47,6 @@ runs:
   using: 'node12'
   main: 'dist/main/index.js'
   post: 'dist/post/index.js'
+branding:
+  icon: 'codesandbox'  
+  color: 'blue'

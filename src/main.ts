@@ -128,6 +128,10 @@ async function run(): Promise<void> {
     if (gradlePortalSecret) {
       properties += `gradle.publish.secret=${gradlePortalSecret}\n`
     }
+    const gradleJvmArgs = core.getInput('gradle-jvm-args')
+    if (gradleJvmArgs) {
+      properties += `org.gradle.jvmargs=${gradleJvmArgs}\n`
+    }
 
     const gpgKeyName = core.getInput('gpg-key-name')
     if (gpgKeyName) {
