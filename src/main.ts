@@ -53,6 +53,7 @@ async function run(): Promise<void> {
 
     const release = core.getInput('release-repositories')
     const config = core.getInput('config-repositories')
+    const npm = core.getInput('npm-repositories')
     const docker = core.getInput('docker-repositories')
     const snapshot = core.getInput('snapshot-repositories')
     const dependency = core.getInput('dependency-repositories')
@@ -69,7 +70,8 @@ async function run(): Promise<void> {
       'jcenter',
       'portal',
       'release',
-      'snapshot'
+      'snapshot',
+      'npm'
     ]
 
     const registeredReposiotriesName = embeddedRepositories.concat(
@@ -118,6 +120,9 @@ async function run(): Promise<void> {
     }
     if (config) {
       properties += `sisyphus.config.repositories=${config}\n`
+    }
+    if (config) {
+      properties += `sisyphus.npm.repositories=${npm}\n`
     }
 
     const gradlePortalKey = core.getInput('gradle-portal-key')

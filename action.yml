@@ -15,9 +15,11 @@ inputs:
   release-repositories:
     description: 'Repositories to push release artifact.'
     required: false
-
   docker-repositories:
     description: 'Repositories to push docker images.'
+    required: false
+  npm-repositories:
+    description: 'Repositories to push npm packages.'
     required: false
   config-repositories:
     description: 'Repositories to resolve config artifact dependencies.'
