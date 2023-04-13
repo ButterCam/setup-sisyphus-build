@@ -2,8 +2,9 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import * as io from '@actions/io'
 import * as fs from 'fs'
-import * as path from 'path'
 import * as os from 'os'
+import * as path from 'path'
+import {mergeCatalogsToml} from './toml'
 
 async function run(): Promise<void> {
   try {
@@ -16,10 +17,9 @@ async function run(): Promise<void> {
       github.context.payload.pull_request != null
     ) {
       octokit = github.getOctokit(core.getInput('github-token'))
-      const {data} = await octokit.pulls.get({
+      const {data} = await octokit.rest.pulls.get({
         owner: github.context.payload.repository?.owner?.login ?? '',
         repo: github.context.payload.repository?.name ?? '',
-        // eslint-disable-next-line @typescript-eslint/camelcase
         pull_number: github.context.payload.pull_request.number
       })
       pr = data
@@ -158,6 +158,32 @@ async function run(): Promise<void> {
 
     core.debug(`Properties generated:\n${properties}`)
 
+    if (prBody) {
+      const matches = prBody.match(/```lib.versions.toml([\s\S]+?)```/i)
+      if (matches) {
+        const mergingCatalogString = matches[1].trim()
+
+        core.startGroup('Merge version catalog from PR description.')
+        core.info(mergingCatalogString)
+        core.endGroup()
+
+        let toml = ''
+        if (fs.existsSync('./gradle/lib.versions.toml')) {
+          toml = await fs.promises.readFile(
+            './gradle/lib.versions.toml',
+            'utf8'
+          )
+        }
+
+        const merged = mergeCatalogsToml(toml, mergingCatalogString)
+        core.debug(`Version catalog merged:\n${merged}`)
+
+        if (merged.trim().length > 0) {
+          await fs.promises.writeFile('./gradle/lib.versions.toml', merged)
+        }
+      }
+    }
+
     const gradleUserHome =
       process.env['GRADLE_USER_HOME'] || path.resolve(os.homedir(), '.gradle')
 
@@ -177,7 +203,7 @@ async function run(): Promise<void> {
 
     core.info(`Properties wrote to '${propertiesFile}'.`)
   } catch (error) {
-    core.setFailed(error.message)
+    core.setFailed((error as Error).message)
   }
 }
 

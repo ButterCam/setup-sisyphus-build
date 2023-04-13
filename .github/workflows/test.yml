@@ -1,4 +1,4 @@
-name: "build-test"
+name: 'build-test'
 on: # rebuild any PRs and main branch changes
   pull_request:
   push:
@@ -10,31 +10,32 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - run: |
-        npm install
-        npm run all
+      - uses: actions/checkout@v3
+      - run: |
+          npm install
+      - run: |
+          npm run all
   test: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: ./
-      with:
-        developer: higan
-        snapshot-repositories: nexus, snapshot
-        dependency-repositories: local, central, nexus, public
-        config-repositories: nexus
-        config-artifacts: com.my:my-config:1.0.0
-        public-url: https://maven-repo/public
-        nexus-url: https://maven-repo/nexus
-        nexus-username: me
-        nexus-password: pass
-        snapshot-url: https://maven-repo/snapshot
-        snapshot-username: me
-        snapshot-password: pass
-        release-url: https://maven-repo/release
-        release-username: me
-        release-password: pass
-        gradle-portal-key: my_key
-        gradle-portal-secret: my_secret
-        gpg-key-name: my_keyname
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          developer: higan
+          snapshot-repositories: nexus, snapshot
+          dependency-repositories: local, central, nexus, public
+          config-repositories: nexus
+          config-artifacts: com.my:my-config:1.0.0
+          public-url: https://maven-repo/public
+          nexus-url: https://maven-repo/nexus
+          nexus-username: me
+          nexus-password: pass
+          snapshot-url: https://maven-repo/snapshot
+          snapshot-username: me
+          snapshot-password: pass
+          release-url: https://maven-repo/release
+          release-username: me
+          release-password: pass
+          gradle-portal-key: my_key
+          gradle-portal-secret: my_secret
+          gpg-key-name: my_keyname
