@@ -46,9 +46,9 @@ inputs:
     description: 'Gnupg key name for signing.'
     required: false
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/main/index.js'
   post: 'dist/post/index.js'
 branding:
-  icon: 'codesandbox'  
+  icon: 'code'
   color: 'blue'
