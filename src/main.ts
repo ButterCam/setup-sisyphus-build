@@ -168,9 +168,9 @@ async function run(): Promise<void> {
         core.endGroup()
 
         let toml = ''
-        if (fs.existsSync('./gradle/lib.versions.toml')) {
+        if (fs.existsSync('./gradle/libs.versions.toml')) {
           toml = await fs.promises.readFile(
-            './gradle/lib.versions.toml',
+            './gradle/libs.versions.toml',
             'utf8'
           )
         }
@@ -179,7 +179,7 @@ async function run(): Promise<void> {
         core.debug(`Version catalog merged:\n${merged}`)
 
         if (merged.trim().length > 0) {
-          await fs.promises.writeFile('./gradle/lib.versions.toml', merged)
+          await fs.promises.writeFile('./gradle/libs.versions.toml', merged)
         }
       }
     }
