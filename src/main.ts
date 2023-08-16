@@ -207,6 +207,7 @@ async function run(): Promise<void> {
   }
 }
 
+// eslint-disable-next-line github/no-then
 run().catch(error => {
   core.error(error)
   core.setFailed(error)
