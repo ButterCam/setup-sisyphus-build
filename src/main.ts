@@ -10,6 +10,7 @@ async function run(): Promise<void> {
   try {
     let properties = ''
     const ref = github.context.ref
+    core.info(`Build sisyphus in ref '${ref}'.`)
     let pr
     let octokit = null
     if (
@@ -27,7 +28,6 @@ async function run(): Promise<void> {
       pr = github.context.payload.pull_request
     }
 
-    core.info(`Build sisyphus in ref '${ref}'.`)
     if (ref.startsWith('refs/heads/')) {
       const branch = ref.substring(11)
       core.exportVariable('BRANCH_NAME', branch)
@@ -207,4 +207,7 @@ async function run(): Promise<void> {
   }
 }
 
-run()
+run().catch(error => {
+  core.error(error)
+  core.setFailed(error)
+})
